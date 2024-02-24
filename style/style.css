@@ -1,0 +1,48 @@
+ul {
+  list-style: none;
+}
+h2 {
+  text-align: center;
+}
+.guide_timeline_container {
+  position: relative;
+  width: 100%;
+  padding-left: 150px;
+  overflow: hidden;
+  background: white;
+  border-bottom: 1px solid rgba(118, 120, 123, 0.51);
+}
+.guide_timeline_container_hours_scroll {
+  width: 64800px;
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+}
+.guide_grid_container {
+  display: flex;
+}
+.guide_channels {
+  width: 150px;
+  height: 450px;
+}
+.guide_channels_list li {
+  height: 90px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tvg_grid__programs_line {
+  height: 88px;
+}
+.tvg_grid__program {
+  height: 100%;
+}
+.tvg_grid__programs_line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
