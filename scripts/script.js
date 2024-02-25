@@ -109,6 +109,7 @@ const tvSchedule = [
   },
 ];
 const hrt = document.querySelector(".hrt");
+let openPopup = false;
 createTvGuide(tvSchedule);
 function createTvGuide(tvSchedule) {
   tvSchedule.forEach((program) => {
@@ -131,6 +132,9 @@ function createTvGuide(tvSchedule) {
 
     const startTime = getTimeInMinutes(program.startTime);
     const endTime = getTimeInMinutes(program.endTime);
+    item.addEventListener("click", function () {
+      showPopup(program);
+    });
 
     item.style.width = (endTime - startTime) * 2.778 + "px";
     hrt.appendChild(item);
@@ -139,4 +143,30 @@ function createTvGuide(tvSchedule) {
 function getTimeInMinutes(time) {
   const [hours, minutes] = time.split(":");
   return parseInt(hours) * 60 + parseInt(minutes);
+}
+
+function showPopup(program) {
+  if (openPopup) return;
+  const popupOverlay = document.createElement("div");
+  popupOverlay.classList.add("popupOverlay");
+  document.body.appendChild(popupOverlay);
+  const popupContainer = document.createElement("div");
+  popupContainer.classList.add("popupContainer");
+
+  popupContainer.innerHTML = `
+     <span class="close">&times;</span>
+     <h2>${program.name}</h2>
+     <p>${program.description}</p>
+     <p>${program.isRepeat ? "Repriza" : "Nije repriza"}</p>
+     <p>Kanal: ${program.channel}</p>
+   `;
+  document.body.appendChild(popupContainer);
+  openPopup = true;
+
+  const closeBtn = popupContainer.querySelector(".close");
+  closeBtn.addEventListener("click", function () {
+    openPopup = false;
+    document.body.removeChild(popupOverlay);
+    document.body.removeChild(popupContainer);
+  });
 }
