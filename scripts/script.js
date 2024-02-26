@@ -4,7 +4,36 @@ const hrt = document.querySelector(".hrt");
 let parentalPin = "0000";
 let openPopup = false;
 const watchList = [];
+const change_parental_pin_button = document.querySelector(
+  ".change_parental_pin"
+);
 
+change_parental_pin_button.addEventListener("click", () => {
+  const pin = prompt("Upisite roditeljski pin");
+
+  if (pin == parentalPin) {
+    const newPin = getNewParentalPinFromUser();
+    if (newPin !== null) {
+      alert("Pin je promijenjen");
+      parentalPin = newPin;
+    } else {
+      alert("Pin nije promijenjen");
+    }
+  } else alert("Neispravan roditeljski pin");
+});
+function getNewParentalPinFromUser() {
+  let userPin = "";
+  do {
+    userPin = prompt(
+      "Upisite novi pin koji treba sadrzavati od 4 do 8 brojeva i samo brojeve"
+    );
+    if (userPin == null) return null;
+
+    if (!(userPin.length >= 4 && userPin.length <= 8 && !isNaN(userPin)))
+      alert("Neispravan unos pina");
+  } while (!(userPin.length >= 4 && userPin.length <= 8 && !isNaN(userPin)));
+  return userPin;
+}
 createTvGuide(tvSchedule);
 function createTvGuide(tvSchedule) {
   tvSchedule.forEach((program) => {
