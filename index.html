@@ -52,27 +52,13 @@
           <ul class="tvg_grid__programs">
             <li class="tvg_grid__programs_line">
               <ul class="hrt"></ul>
-              <ul>
-                <li class="tvg_grid__program">
-                  <div class="tvg_grid__program__inner">
-                    <span class="tvg_grid__program__start-time">12am</span>
-                    <span class="tvg_grid__program__title">The Simpsons</span>
-                  </div>
-                </li>
-                <li class="tvg_grid__program">
-                  <div class="tvg_grid__program__inner">
-                    <span class="tvg_grid__program__start-time">12am</span>
-                    <span class="tvg_grid__program__title">The Simpsons</span>
-                  </div>
-                </li>
-                <li class="tvg_grid__program">
-                  <div class="tvg_grid__program__inner">
-                    <span class="tvg_grid__program__start-time">12am</span>
-                    <span class="tvg_grid__program__title">The Simpsons</span>
-                  </div>
-                </li>
-              </ul>
-              <ul>
+            </li>
+            <li class="tvg_grid__programs_line">
+              <ul class="hrt2"></ul>
+            </li>
+
+            <li class="tvg_grid__programs_line">
+              <ul class="nova_tv">
                 <li class="tvg_grid__program">
                   <div class="tvg_grid__program__inner">
                     <span class="tvg_grid__program__start-time">12am</span>
@@ -80,7 +66,9 @@
                   </div>
                 </li>
               </ul>
-              <ul>
+            </li>
+            <li class="tvg_grid__programs_line">
+              <ul class="rtl">
                 <li class="tvg_grid__program">
                   <div class="tvg_grid__program__inner">
                     <span class="tvg_grid__program__start-time">12am</span>
@@ -93,6 +81,26 @@
         </div>
       </div>
     </div>
+    <label for="category">Category:</label>
+    <select id="category">
+      <option value="Dječji program">Dokumentarac</option>
+      <option value="Dječji program">Dječji program</option>
+      <option value="Informativni program">Informativni program</option>
+      <option value="Film">Film</option>
+      <option value="Odrasli program">Odrasli program</option>
+      <option value="Zabavni program">Zabavni program</option>
+    </select>
+
+    <label for="minRating">Minimum Rating:</label>
+    <input type="number" id="minRating" min="0" max="5" />
+
+    <label for="inWatchlist">In Watchlist:</label>
+    <input type="checkbox" id="inWatchlist" />
+
+    <button id="filterButton">Filter Programs</button>
+
+    <div id="filteredProgramsContainer"></div>
+
     <button class="change_parental_pin">Promijeni roditeljski pin</button>
     <script src="scripts/programs.js" type="module"></script>
     <script src="scripts/script.js" type="module"></script>
