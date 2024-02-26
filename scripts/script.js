@@ -1,115 +1,10 @@
-const tvSchedule = [
-  {
-    startTime: "0:00",
-    endTime: "0:30",
-    name: "Europa iz zraka",
-    description: "Daily news updates",
-    category: "Odrasli program",
-    isRepeat: false,
-    channel: "HRT 1",
-  },
-  {
-    startTime: "0:30",
-    endTime: "3:30",
-    name: "Anarhistice",
-    description: "Action-packed thriller",
-    category: "Odrasli program",
-    isRepeat: false,
-    channel: "HRT 1",
-  },
-  {
-    startTime: "3:30",
-    endTime: "4:30",
-    name: "Glazba, glazba",
-    description: "Action-packed thriller",
-    category: "Dokumentarac",
-    isRepeat: false,
-    channel: "HRT 1",
-  },
-  {
-    startTime: "4:30",
-    endTime: "6:00",
-    name: "Noćni glazbeni program",
-    description: "Action-packed thriller",
-    category: "Film",
-    isRepeat: false,
-    channel: "HRT 1",
-  },
-  {
-    startTime: "6:00",
-    endTime: "7:00",
-    name: "Dobro jutro, Hrvatska",
-    description: "Action-packed thriller",
-    category: "Informativni program",
-    isRepeat: false,
-    channel: "HRT 1",
-  },
-  {
-    startTime: "7:00",
-    endTime: "10:00",
-    name: "Maša i medvjed",
-    description: "Action-packed thriller",
-    category: "Dječji program",
-    isRepeat: false,
-    channel: "HRT 1",
-  },
-  {
-    startTime: "10:00",
-    endTime: "12:00",
-    name: "Obitelj čudnih životninja",
-    description: "Action-packed thriller",
-    category: "Zabavni program",
-    isRepeat: false,
-    channel: "HRT 1",
-  },
-  {
-    startTime: "12:00",
-    endTime: "15:00",
-    name: "Gorski liječnik",
-    description: "Action-packed thriller",
-    category: "Zabavni program",
-    isRepeat: false,
-    channel: "HRT 1",
-  },
-  {
-    startTime: "15:00",
-    endTime: "17:30",
-    name: "TV izlog",
-    description: "Action-packed thriller",
-    category: "Informativni program",
-    isRepeat: false,
-    channel: "HRT 1",
-  },
-  {
-    startTime: "17:30",
-    endTime: "20:30",
-    name: "I to je Hrvatska",
-    description: "Action-packed thriller",
-    category: "Informativni program",
-    isRepeat: false,
-    channel: "HRT 1",
-  },
-  {
-    startTime: "20:30",
-    endTime: "22:30",
-    name: "Večernje vijesti",
-    description: "Action-packed thriller",
-    category: "Informativni program",
-    isRepeat: false,
-    channel: "HRT 1",
-  },
-  {
-    startTime: "22:30",
-    endTime: "24:00",
-    name: "Kumovi",
-    description: "Action-packed thriller",
-    category: "Odrasli program",
-    isRepeat: false,
-    channel: "HRT 1",
-  },
-];
+import { tvSchedule } from "./programs.js";
+
 const hrt = document.querySelector(".hrt");
+let parentalPin = "0000";
 let openPopup = false;
+const watchList = [];
+
 createTvGuide(tvSchedule);
 function createTvGuide(tvSchedule) {
   tvSchedule.forEach((program) => {
@@ -132,7 +27,7 @@ function createTvGuide(tvSchedule) {
 
     const startTime = getTimeInMinutes(program.startTime);
     const endTime = getTimeInMinutes(program.endTime);
-    item.addEventListener("click", function () {
+    item.addEventListener("click", () => {
       showPopup(program);
     });
 
@@ -147,6 +42,8 @@ function getTimeInMinutes(time) {
 
 function showPopup(program) {
   if (openPopup) return;
+  if (!checkForParentalPin(program)) return;
+
   const popupOverlay = document.createElement("div");
   popupOverlay.classList.add("popupOverlay");
   document.body.appendChild(popupOverlay);
@@ -160,6 +57,8 @@ function showPopup(program) {
      <p>${program.isRepeat ? "Repriza" : "Nije repriza"}</p>
      <p>Kanal: ${program.channel}</p>
    `;
+  const button = createWatchlistButton(program);
+  popupContainer.appendChild(button);
   document.body.appendChild(popupContainer);
   openPopup = true;
 
@@ -169,4 +68,37 @@ function showPopup(program) {
     document.body.removeChild(popupOverlay);
     document.body.removeChild(popupContainer);
   });
+}
+
+function checkForParentalPin(program) {
+  if (program.category.toLowerCase() == "odrasli program") {
+    const userPin = prompt("Upisite roditeljski pin");
+    if (userPin == parentalPin) return true;
+    else {
+      alert("Unijeli ste krivi roditeljski pin");
+      return false;
+    }
+  } else return true;
+}
+function createWatchlistButton(program) {
+  const watchlist_button = document.createElement("button");
+  watchlist_button.classList.add("watchlist_button");
+
+  if (watchList.includes(program))
+    watchlist_button.textContent = "Ukloni program s watchliste";
+  else watchlist_button.textContent = "Dodaj program na watchlistu";
+
+  watchlist_button.addEventListener("click", () => {
+    console.log(watchList);
+    if (watchList.includes(program)) {
+      const index = watchList.indexOf(program);
+      watchList.splice(index, 1);
+      watchlist_button.textContent = "Dodaj program na watchlistu";
+    } else {
+      alert("dodan na listu");
+      watchlist_button.textContent = "Ukloni program s watchliste";
+      watchList.push(program);
+    }
+  });
+  return watchlist_button;
 }
