@@ -1,9 +1,15 @@
 import { tvSchedule } from "./programs.js";
 
 import { createRateButton } from "./buttons.js";
-
-const hrt = document.querySelector(".hrt");
+import {
+  checkForParentalPin,
+  getNewParentalPinFromUser,
+} from "./parental_control.js";
+import { createWatchlistButton } from "./buttons.js";
+const hrt1 = document.querySelector(".hrt1");
 const hrt2 = document.querySelector(".hrt2");
+const novaTv = document.querySelector(".nova_tv");
+const rtl = document.querySelector(".rtl");
 let parentalPin = "0000";
 let openPopup = false;
 const watchList = [];
@@ -11,6 +17,12 @@ const change_parental_pin_button = document.querySelector(
   ".change_parental_pin"
 );
 
+//sortiranje programa po vremenu pocetka
+tvSchedule.sort((a, b) => {
+  const timeA = getTimeInMinutes(a.startTime);
+  const timeB = getTimeInMinutes(b.startTime);
+  return timeA - timeB;
+});
 change_parental_pin_button.addEventListener("click", () => {
   const pin = prompt("Upisite roditeljski pin");
 
@@ -26,9 +38,9 @@ change_parental_pin_button.addEventListener("click", () => {
   else alert("Neispravan roditeljski pin");
 });
 
-createTvGuide(tvSchedule, hrt);
-createTvGuide(tvSchedule, hrt2);
-function createTvGuide(tvSchedule, channel) {
+createTvGuide(tvSchedule);
+
+function createTvGuide(tvSchedule) {
   tvSchedule.forEach((program) => {
     const item = document.createElement("li");
     item.classList.add("tvg_grid__program");
@@ -54,7 +66,10 @@ function createTvGuide(tvSchedule, channel) {
     });
 
     item.style.width = (endTime - startTime) * 2.778 + "px";
-    channel.appendChild(item);
+    if (program.channel == "HRT 1") hrt1.appendChild(item);
+    else if (program.channel == "HRT 2") hrt2.appendChild(item);
+    else if (program.channel == "Nova TV") novaTv.append(item);
+    else rtl.appendChild(item);
   });
 }
 function getTimeInMinutes(time) {
@@ -62,32 +77,9 @@ function getTimeInMinutes(time) {
   return parseInt(hours) * 60 + parseInt(minutes);
 }
 
-function createWatchlistButton(program) {
-  const watchlist_button = document.createElement("button");
-  watchlist_button.classList.add("watchlist_button");
-
-  if (watchList.includes(program))
-    watchlist_button.textContent = "Ukloni program s watchliste";
-  else watchlist_button.textContent = "Dodaj program na watchlistu";
-
-  watchlist_button.addEventListener("click", () => {
-    console.log(watchList);
-    if (watchList.includes(program)) {
-      const index = watchList.indexOf(program);
-      alert("Program uklonjen s watchliste");
-      watchList.splice(index, 1);
-      watchlist_button.textContent = "Dodaj program na watchlistu";
-    } else {
-      alert("Program dodan na watchlistu");
-      watchlist_button.textContent = "Ukloni program s watchliste";
-      watchList.push(program);
-    }
-  });
-  return watchlist_button;
-}
 function showPopup(program) {
   if (openPopup) return;
-  if (!checkForParentalPin(program)) return;
+  if (!checkForParentalPin(program, parentalPin)) return;
 
   const popupOverlay = document.createElement("div");
   popupOverlay.classList.add("popupOverlay");
@@ -102,12 +94,12 @@ function showPopup(program) {
      <p>${program.isRepeat ? "Repriza" : "Nije repriza"}</p>
      <p>Kanal: ${program.channel}</p>
      <label for="rating">Ocijenite program:</label>
-     <input type="number" id="rating" name="rating" min="0" max="5">
+     <input type="number" id="rating" name="rating" min="0" max="5" value=0>
    `;
   const rateButton = createRateButton(program);
   popupContainer.appendChild(rateButton);
 
-  const watchlistButton = createWatchlistButton(program);
+  const watchlistButton = createWatchlistButton(program, watchList);
   popupContainer.appendChild(watchlistButton);
 
   document.body.appendChild(popupContainer);
@@ -148,28 +140,4 @@ function filterPrograms(programs, category, minRating, inWatchlist) {
     }
     return true;
   });
-}
-
-function getNewParentalPinFromUser() {
-  let userPin = "";
-  do {
-    userPin = prompt(
-      "Upisite novi pin koji treba sadrzavati od 4 do 8 brojeva i samo brojeve"
-    );
-    if (userPin == null) return null;
-
-    if (!(userPin.length >= 4 && userPin.length <= 8 && !isNaN(userPin)))
-      alert("Neispravan unos pina");
-  } while (!(userPin.length >= 4 && userPin.length <= 8 && !isNaN(userPin)));
-  return userPin;
-}
-function checkForParentalPin(program) {
-  if (program.category.toLowerCase() == "odrasli program") {
-    const userPin = prompt("Upisite roditeljski pin");
-    if (userPin == parentalPin) return true;
-    else {
-      alert("Unijeli ste krivi roditeljski pin");
-      return false;
-    }
-  } else return true;
 }
