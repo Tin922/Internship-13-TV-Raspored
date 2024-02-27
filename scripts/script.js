@@ -97,6 +97,7 @@ function showPopup(program) {
      <p> <span class ="program_description">Opis programa:</span>${
        program.description
      }</p>
+     <p>Kategorija programa: ${program.category}</p>
      <p>${program.isRepeat ? "Repriza" : "Nije repriza"}</p>
      <p>Kanal: ${program.channel}</p>
      <label for="rating">Ocijenite program:</label>
