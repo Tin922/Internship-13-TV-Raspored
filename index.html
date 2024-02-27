@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/main.css" />
     <title>Document</title>
   </head>
   <body>
@@ -70,31 +70,37 @@
     <div class="change_parental_pin_container">
       <button class="change_parental_pin">Promijeni roditeljski pin</button>
     </div>
-    <label for="category">Kategorija:</label>
-    <select id="category">
-      <option value="Dokumentarac">Dokumentarac</option>
-      <option value="Dječji program">Dječji program</option>
-      <option value="Informativni program">Informativni program</option>
-      <option value="Film">Film</option>
-      <option value="Odrasli program">Odrasli program</option>
-      <option value="Zabavni program">Zabavni program</option>
-    </select>
-
-    <label for="minRating">Minimalna ocjena:</label>
-    <select id="minRating">
-      <option value="0">Nema je</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-    </select>
-
-    <label for="inWatchlist">U watchlisti:</label>
-    <input type="checkbox" id="inWatchlist" />
-
-    <button id="filterButton">Filtriraj programe</button>
-
+    <div class="filter_container">
+      <div class="category_container">
+        <label for="category">Kategorija:</label>
+        <select id="category">
+          <option value="Dokumentarac">Dokumentarac</option>
+          <option value="Dječji program">Dječji program</option>
+          <option value="Informativni program">Informativni program</option>
+          <option value="Film">Film</option>
+          <option value="Odrasli program">Odrasli program</option>
+          <option value="Zabavni program">Zabavni program</option>
+        </select>
+      </div>
+      <div class="rating_container">
+        <label for="minRating">Minimalna ocjena:</label>
+        <select id="minRating">
+          <option value="0">Nema je</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div class="watchlistContainer">
+        <label for="inWatchlist">U watchlisti:</label>
+        <input type="checkbox" id="inWatchlist" />
+      </div>
+      <div class="filter_button_container">
+        <button id="filterButton">Filtriraj programe</button>
+      </div>
+    </div>
     <div id="filteredProgramsContainer"></div>
 
     <script src="scripts/programs.js" type="module"></script>

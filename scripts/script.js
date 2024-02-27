@@ -138,12 +138,13 @@ document.getElementById("filterButton").addEventListener("click", () => {
   console.log(filteredPrograms);
 });
 function createProgram(program) {
-  return `<h2>${program.name}</h2>
+  return `<div><h2>${program.name}</h2>
   <p>${program.description}</p>
   <p>${program.isRepeat ? "Repriza" : "Nije repriza"}</p>
   <p>Kanal: ${program.channel}</p>
   ${program.rating !== undefined ? `<p>Ocjena: ${program.rating}</p>` : ""}
-  ${watchList.includes(program) ? `<p>Na watchlisti</p>` : ""}`;
+  ${watchList.includes(program) ? `<p>Na watchlisti</p>` : ""}
+  </div>`;
 }
 function filterPrograms(programs, category, minRating, inWatchlist) {
   return programs.filter((program) => {
