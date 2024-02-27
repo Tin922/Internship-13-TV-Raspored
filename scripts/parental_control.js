@@ -15,6 +15,7 @@ function checkForParentalPin(program, parentalPin) {
   if (program.category.toLowerCase() == "odrasli program") {
     const userPin = prompt("Upisite roditeljski pin");
     if (userPin == parentalPin) return true;
+    else if (userPin === null) return;
     else {
       alert("Unijeli ste krivi roditeljski pin");
       return false;

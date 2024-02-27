@@ -67,7 +67,10 @@
         </div>
       </div>
     </div>
-    <label for="category">Category:</label>
+    <div class="change_parental_pin_container">
+      <button class="change_parental_pin">Promijeni roditeljski pin</button>
+    </div>
+    <label for="category">Kategorija:</label>
     <select id="category">
       <option value="Dokumentarac">Dokumentarac</option>
       <option value="Dječji program">Dječji program</option>
@@ -77,17 +80,23 @@
       <option value="Zabavni program">Zabavni program</option>
     </select>
 
-    <label for="minRating">Minimum Rating:</label>
-    <input type="number" id="minRating" min="0" max="5" />
+    <label for="minRating">Minimalna ocjena:</label>
+    <select id="minRating">
+      <option value="0">Nema je</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
 
-    <label for="inWatchlist">In Watchlist:</label>
+    <label for="inWatchlist">U watchlisti:</label>
     <input type="checkbox" id="inWatchlist" />
 
-    <button id="filterButton">Filter Programs</button>
+    <button id="filterButton">Filtriraj programe</button>
 
     <div id="filteredProgramsContainer"></div>
 
-    <button class="change_parental_pin">Promijeni roditeljski pin</button>
     <script src="scripts/programs.js" type="module"></script>
     <script src="scripts/script.js" type="module"></script>
   </body>

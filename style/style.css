@@ -10,6 +10,7 @@ h2 {
   overflow-x: scroll;
 }
 .guide {
+  margin: 6rem 0;
   display: flex;
 }
 .guide_timeline_container_hours_scroll {
@@ -93,6 +94,20 @@ span {
   transform: translate(-50%, -50%);
   width: 500px;
   height: 500px;
+}
+.popupContainer label {
+  margin: 1rem 0;
+}
+.popupContainer input {
+  margin: 1rem 0;
+}
+.popupContainer button {
+  margin: 0.5rem 0;
+}
+.program_description {
+  display: block;
+  white-space: pre-line;
+  padding: 0;
 }
 .close {
   position: absolute;

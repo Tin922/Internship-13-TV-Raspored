@@ -1,4 +1,4 @@
-function createRateButton(program) {
+function createRateButton(program, ratingDisplay) {
   const rateButton = document.createElement("button");
   rateButton.classList.add("rate_button");
   rateButton.textContent = "Ocijeni";
@@ -6,8 +6,9 @@ function createRateButton(program) {
   rateButton.addEventListener("click", function () {
     const ratingInput = document.getElementById("rating");
     const rating = parseFloat(ratingInput.value);
-    if (!isNaN(rating) && rating >= 0 && rating <= 5) {
+    if (!isNaN(rating) && rating >= 1 && rating <= 5) {
       if (!program.hasOwnProperty("rating")) {
+        alert(`Program je ocijenjen s ${ratingInput.value}`);
         Object.defineProperty(program, "rating", {
           value: rating,
           writable: true,
@@ -15,6 +16,7 @@ function createRateButton(program) {
           configurable: true,
         });
       } else {
+        alert(`Program je ocijenjen s ${ratingInput.value}`);
         program.rating = rating;
       }
     } else {

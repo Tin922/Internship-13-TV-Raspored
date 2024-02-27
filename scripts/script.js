@@ -10,6 +10,9 @@ const hrt1 = document.querySelector(".hrt1");
 const hrt2 = document.querySelector(".hrt2");
 const novaTv = document.querySelector(".nova_tv");
 const rtl = document.querySelector(".rtl");
+const filteredProgramsContainer = document.getElementById(
+  "filteredProgramsContainer"
+);
 let parentalPin = "0000";
 let openPopup = false;
 const watchList = [];
@@ -62,7 +65,7 @@ function createTvGuide(tvSchedule) {
     const startTime = getTimeInMinutes(program.startTime);
     const endTime = getTimeInMinutes(program.endTime);
     item.addEventListener("click", () => {
-      showPopup(program);
+      showPopup(program, tvSchedule);
     });
 
     item.style.width = (endTime - startTime) * 2.778 + "px";
@@ -90,11 +93,15 @@ function showPopup(program) {
   popupContainer.innerHTML = `
      <span class="close">&times;</span>
      <h2>${program.name}</h2>
-     <p>${program.description}</p>
+ 
+     <p> <span class ="program_description">Opis programa:</span>${
+       program.description
+     }</p>
      <p>${program.isRepeat ? "Repriza" : "Nije repriza"}</p>
      <p>Kanal: ${program.channel}</p>
      <label for="rating">Ocijenite program:</label>
-     <input type="number" id="rating" name="rating" min="0" max="5" value=0>
+     <input type="number" id="rating" name="rating" min="1" max="5">
+     ${program.rating ? `Ocjena je: ${program.rating}` : ""}
    `;
   const rateButton = createRateButton(program);
   popupContainer.appendChild(rateButton);
@@ -106,13 +113,13 @@ function showPopup(program) {
   openPopup = true;
 
   const closeBtn = popupContainer.querySelector(".close");
-  closeBtn.addEventListener("click", function () {
+  closeBtn.addEventListener("click", () => {
     openPopup = false;
     document.body.removeChild(popupOverlay);
     document.body.removeChild(popupContainer);
   });
 }
-document.getElementById("filterButton").addEventListener("click", function () {
+document.getElementById("filterButton").addEventListener("click", () => {
   const category = document.getElementById("category").value;
   const minRating = parseInt(document.getElementById("minRating").value);
   const isInWatchlist = document.getElementById("inWatchlist").checked;
@@ -122,9 +129,20 @@ document.getElementById("filterButton").addEventListener("click", function () {
     minRating,
     isInWatchlist
   );
+  filteredProgramsContainer.innerHTML = "";
+  filteredPrograms.forEach(
+    (progarm) => (filteredProgramsContainer.innerHTML += createProgram(progarm))
+  );
   console.log(filteredPrograms);
 });
-
+function createProgram(program) {
+  return `<h2>${program.name}</h2>
+  <p>${program.description}</p>
+  <p>${program.isRepeat ? "Repriza" : "Nije repriza"}</p>
+  <p>Kanal: ${program.channel}</p>
+  ${program.rating !== undefined ? `<p>Ocjena: ${program.rating}</p>` : ""}
+  ${watchList.includes(program) ? `<p>Na watchlisti</p>` : ""}`;
+}
 function filterPrograms(programs, category, minRating, inWatchlist) {
   return programs.filter((program) => {
     if (program.category !== category) {
