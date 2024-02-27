@@ -1,4 +1,4 @@
-function createRateButton(program, ratingDisplay) {
+function createRateButton(program, ratingContainer) {
   const rateButton = document.createElement("button");
   rateButton.classList.add("rate_button");
   rateButton.textContent = "Ocijeni";
@@ -9,6 +9,7 @@ function createRateButton(program, ratingDisplay) {
     if (!isNaN(rating) && rating >= 1 && rating <= 5) {
       if (!program.hasOwnProperty("rating")) {
         alert(`Program je ocijenjen s ${ratingInput.value}`);
+        ratingContainer.textContent = `Ocjena je: ${rating}`;
         Object.defineProperty(program, "rating", {
           value: rating,
           writable: true,
@@ -16,6 +17,8 @@ function createRateButton(program, ratingDisplay) {
           configurable: true,
         });
       } else {
+        ratingContainer.textContent = `Ocjena je: ${rating}`;
+
         alert(`Program je ocijenjen s ${ratingInput.value}`);
         program.rating = rating;
       }
@@ -26,6 +29,13 @@ function createRateButton(program, ratingDisplay) {
   });
 
   return rateButton;
+}
+function createRating(program) {
+  const text = document.createElement("p");
+  if (program.rating) {
+    text.textContent = `Ocijena je: ${program.rating}`;
+  } else text.textContent = `Nije ocijenjen`;
+  return text;
 }
 function createWatchlistButton(program, watchList) {
   const watchlist_button = document.createElement("button");
@@ -50,4 +60,4 @@ function createWatchlistButton(program, watchList) {
   });
   return watchlist_button;
 }
-export { createRateButton, createWatchlistButton };
+export { createRateButton, createWatchlistButton, createRating };

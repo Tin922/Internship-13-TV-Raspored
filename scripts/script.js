@@ -1,6 +1,6 @@
 import { tvSchedule } from "./programs.js";
 
-import { createRateButton } from "./buttons.js";
+import { createRateButton, createRating } from "./buttons.js";
 import {
   checkForParentalPin,
   getNewParentalPinFromUser,
@@ -101,10 +101,12 @@ function showPopup(program) {
      <p>Kanal: ${program.channel}</p>
      <label for="rating">Ocijenite program:</label>
      <input type="number" id="rating" name="rating" min="1" max="5">
-     ${program.rating ? `Ocjena je: ${program.rating}` : ""}
+     
    `;
-  const rateButton = createRateButton(program);
+  const rating = createRating(program);
+  const rateButton = createRateButton(program, rating);
   popupContainer.appendChild(rateButton);
+  popupContainer.appendChild(rating);
 
   const watchlistButton = createWatchlistButton(program, watchList);
   popupContainer.appendChild(watchlistButton);
